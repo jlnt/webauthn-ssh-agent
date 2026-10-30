@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 /**
- * @fileoverview Service worker: serves the SSH agent protocol to Secure Shell
+ * @fileoverview Service worker: serves the SSH agent protocol to SSH clients
  * (`--ssh-agent=<this extension's id>`) and opens a small window to have the
  * user confirm each signature with their security key or passkey, since
  * service workers can't use WebAuthn.
@@ -269,10 +269,9 @@ function parseAgentMessage(msg) {
   return Uint8Array.from(msg.data);
 }
 
-// Secure Shell connects here when --ssh-agent=<our id> is set; each agent
-// socket is a separate connection.  Only Secure Shell can connect at all (see
-// manifest.json's externally_connectable); check again, as the dev channel
-// is opt-in.
+// SSH clients connect here when --ssh-agent=<our id> is set; each agent
+// socket is a separate connection.  Check the caller again, as the Secure
+// Shell dev channel is opt-in.
 chrome.runtime.onConnectExternal.addListener((port) => {
   // Hold messages until we know whether to serve this connection.
   const early = [];
@@ -280,7 +279,7 @@ chrome.runtime.onConnectExternal.addListener((port) => {
   port.onMessage.addListener(hold);
   loadSettings().then((settings) => {
     port.onMessage.removeListener(hold);
-    const caller = callerName(port.sender?.id ?? '', settings);
+    const caller = callerName(port.sender, settings);
     if (!caller) {
       console.warn('rejected connection from', port.sender);
       port.disconnect();

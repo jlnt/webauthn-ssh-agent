@@ -16,9 +16,9 @@ On this computer only (`chrome.storage.local`, not synced): the extension's
 settings, and a hash of each key verified on this computer.
 
 **What it shares.**  Nothing.  The extension makes no network requests.  It
-only answers SSH agent requests from Secure Shell, the extension that you
-point at it, which sends the resulting signatures to the SSH servers you
-connect to, as with any SSH key.
+only answers SSH agent requests from Secure Shell or the ChromeOS Terminal
+app.  The client sends the signatures to the SSH servers you connect to, as
+with any SSH key.
 
 **What it can access.**  Only its own storage.  It has no access to websites,
 your browsing, or other extensions' data.

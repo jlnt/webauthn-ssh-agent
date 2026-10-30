@@ -1,9 +1,9 @@
 # WebAuthn SSH Agent
 
-An SSH agent for Chrome's [Secure Shell], with SSH keys bound to a
-**security key** (YubiKey, Titan, …) or a **passkey**, via WebAuthn.  The
-extension never has access to a private key, and every login needs your
-security key or passkey.
+An SSH agent for Chrome's [Secure Shell] and the ChromeOS Terminal app,
+with SSH keys bound to a **security key** (YubiKey, Titan, …) or a **passkey**,
+via WebAuthn.  The extension never has access to a private key, and every
+login needs your security key or passkey.
 
 Works with the regular Secure Shell; no native helpers.  Servers need OpenSSH
 8.4+.
@@ -21,8 +21,9 @@ unpacked** the folder.
 1. Click the extension's toolbar button to open **Manage keys and settings**,
    create a key, and add its public key to `~/.ssh/authorized_keys` on your
    servers.
-2. In Secure Shell, set the connection's **SSH relay server options** to the
-   `--ssh-agent=…` line shown in **Manage keys and settings**.
+2. In Secure Shell or the ChromeOS Terminal app's SSH connection settings,
+   set **SSH relay server options** to the `--ssh-agent=…` line shown in
+   **Manage keys and settings**.
 3. Connect, check the request that pops up, click **Continue** (or press
    Enter), and confirm with your security key or passkey.
 
@@ -93,8 +94,8 @@ confirm, so only servers enforce it.
 
 ## Security
 
-* Only Secure Shell can use the agent (Secure Shell's dev build only if you
-  allow it in **Manage keys and settings**).
+* Only Secure Shell and the ChromeOS Terminal app can use the agent (Secure
+  Shell's dev build only if you allow it in **Manage keys and settings**).
 * The agent checks OpenSSH's session binding (`session-bind@openssh.com`): it
   shows the server's verified host key and refuses logins for any other
   session.
